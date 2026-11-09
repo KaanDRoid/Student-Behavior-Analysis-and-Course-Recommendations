@@ -1,48 +1,43 @@
-# Student-Behavior-Analysis-and-Course-Recommendations
-Analyzes student behavior and engagement in online learning, with a rule based and machine learning enhanced course recommendation system.
+# Student Behavior Analysis and Course Recommendations
 
-## Overview
-This project analyzes student data from the Personalized Learning Dataset to uncover insights into student behavior, performance, and engagement in an online learning platform. By leveraging data analysis and visualization techniques, the project aims to identify key patterns in student demographics, course popularity, engagement levels, and dropout likelihood. Additionally, a simple rule-based course recommendation system is developed to provide personalized learning suggestions, enhancing the overall student experience and supporting educators in optimizing learning strategies.
+Exploratory analysis of student behavior on an online learning platform using the Personalized Learning Dataset. The notebook looks at who the students are, which courses they take, how engagement relates to performance and dropout, and then builds two small rule-based course recommenders. A minimal Dash dashboard is included at the end for filtering scores by engagement and education level.
 
-## Steps
-### Data Exploration and Cleaning
-- Required Libraries: `import pandas as pd`
-- Loaded the dataset and inspected its structure.
-- Checked for missing values (none found) and ensured data consistency.
+## Data
 
-### Demographic Analysis
-- Required Libraries: `import matplotlib.pyplot as plt`, `import seaborn as sns`
-- Analyzed the distribution of students by age, gender, and education level to understand the platform's user base.
-- Visualized age distribution, gender breakdown, and education levels using histograms, pie charts, and bar plots.
+`personalized_learning_dataset.csv` has 10,000 rows, one per student, with no missing values. Columns include age, gender, education level, course name, time spent on videos, quiz attempts and scores, forum participation, assignment completion rate, engagement level (Low/Medium/High), final exam score, learning style, feedback score (1-5) and dropout likelihood (Yes/No).
 
-### Course Popularity and Feedback Analysis
-- Required Libraries: `import matplotlib.pyplot as plt`, `import seaborn as sns`
-- Identified the most popular courses based on enrollment numbers.
-- Evaluated student satisfaction through average feedback scores per course using bar plots.
+## What the notebook does
 
-### Engagement and Performance Analysis
-- Required Libraries: `import matplotlib.pyplot as plt`, `import seaborn as sns`
-- Examined engagement levels (Low, Medium, High) and their impact on performance metrics (quiz scores, assignment completion rates, and final exam scores).
-- Visualized engagement distribution and performance trends using pie charts and grouped bar plots.
+1. Loads the data and checks types and missing values.
+2. Demographics: age histogram, gender pie chart, education level counts.
+3. Courses: enrollment per course and average feedback score per course.
+4. Engagement vs. performance: mean quiz score, assignment completion and final exam score per engagement level.
+5. Dropout: dropout counts by gender, education and engagement level, and a correlation heatmap between interaction metrics and dropout.
+6. Recommendations:
+   - `recommend_course()` suggests a next course from the current course, final exam score (> 80) and engagement level.
+   - `recommend_course_with_thresholds()` first puts students in performance tiers (High >= 85, Medium 65-84, Low < 65) and then picks a suggestion per tier and engagement level.
+7. Extra plots (box plots, Plotly scatter, hexbin) and a Dash app with dropdown filters.
 
-### Dropout Likelihood Analysis
-- Required Libraries: `import matplotlib.pyplot as plt`, `import seaborn as sns`
-- Analyzed dropout likelihood across demographic groups, courses, and engagement levels.
-- Visualized dropout rates and correlations with interaction metrics (e.g., time spent on videos, forum participation).
+## Results
 
-### Advanced Visualizations and Insights
-- Required Libraries: `import matplotlib.pyplot as plt`, `import plotly.express as px`, `from dash import Dash, dcc, html, Input, Output`
-- Created additional visualizations (e.g., hexmaps, scatter plots) to explore relationships between student interactions, performance, and demographics.
-- Summarized key findings to support data-driven decision-making for educators.
+- Enrollment and average feedback (around 3 out of 5) are very similar across the five courses.
+- Engagement level shows almost no difference in quiz scores, exam scores or dropout likelihood, so it is a weak signal in this dataset.
+- Example output of the threshold recommender: S00001 -> Foundational Learning Skills, S00002 -> Advanced Python Programming, S00004 -> Introduction to Data Science.
 
-## Tools Used
-- Python (Pandas, NumPy)
-- Data Visualization (Matplotlib, Seaborn, Plotly)
-- Interactive Dashboard (Dash)
-- Jupyter Notebook
+## How to run
 
-## How to Run
-Clone this repository and open the Jupyter Notebook:
 ```bash
-git clone https://github.com/KaanDRoid/Student-Behavior-Analysis-and-Course-Recommendations.git
-cd Student-Behavior-Analysis-and-Course-Recommendations
+pip install -r requirements.txt
+jupyter notebook personalized_learning.ipynb
+```
+
+The Dash app in the last code cell runs inline in Jupyter (Dash 2.11+).
+
+## Repository layout
+
+```
+personalized_learning.ipynb        analysis notebook
+personalized_learning_dataset.csv  dataset
+requirements.txt
+LICENSE
+```

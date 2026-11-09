@@ -1,0 +1,6 @@
+pandas
+matplotlib
+seaborn
+plotly
+dash>=2.11
+notebook
